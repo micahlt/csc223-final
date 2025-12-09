@@ -1,4 +1,3 @@
-
 from models.species import Species
 import numpy as np
 class Simulation:
@@ -8,7 +7,6 @@ class Simulation:
         self.interaction_rate = interaction_rate
         self.predation_success = predation_success
         self.time = [0]
-
         
     def step(self, t):
     # Predator-prey interactions

@@ -15,8 +15,9 @@ sim = Simulation(prey, predator, interaction_rate=0.02, predation_success=0.8)
 print("Big black balls in yo mouth")
 
 # Run for N steps 
-timesteps = 200 
+timesteps = 100 
 for t in range(timesteps): 
+    print(f"Step {t}")
     sim.step(t) 
 
 
