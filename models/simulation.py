@@ -26,9 +26,9 @@ class Simulation:
         # Remove eaten prey 
         if prey_eaten > 0:
             self.prey.ages = self.prey.ages[:-prey_eaten]
-        # Predator birth boost from feeding
+        # Predator birth boost from feeding (apply feeding bonus) 
         for _ in range(prey_eaten):
-            if np.random.rand() < self.predator.birth_rate:
+            if np.random.rand() < (self.predator.birth_rate * predator_feeding_bonus):
                 self.predator.ages = np.concatenate((self.predator.ages, np.zeros(1, dtype=int)))
         # Apply internal birth/death dynamics
         self.prey.step() 
