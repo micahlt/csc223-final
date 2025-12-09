@@ -10,15 +10,18 @@ class Species:
         self.ages = np.random.randint(0, latency_period + 1, size=initial_population)
         self.variant = species_variant  
         
-    def step(self, interactions=0) -> None:
+    def step(self, interactions=0, reproduce=True) -> None:
         # Age all individuals
         self.ages += 1
         # Apply deaths
         deaths = np.random.rand(len(self.ages)) < self.death_rate
         self.ages = self.ages[~deaths]
-        # Apply births only for mature individuals
-        mature = self.ages >= self.latency_period
-        births = np.sum(np.random.rand(np.sum(mature)) < self.birth_rate)
-        new_ages = np.zeros(births, dtype=int) # newborns start at age 0
-        self.ages = np.concatenate((self.ages, new_ages))
+        
+        if reproduce:
+            # Apply births only for mature individuals
+            mature = self.ages >= self.latency_period
+            births = np.sum(np.random.rand(np.sum(mature)) < self.birth_rate)
+            new_ages = np.zeros(births, dtype=int) # newborns start at age 0
+            self.ages = np.concatenate((self.ages, new_ages))
+            
         self.population.append(len(self.ages))

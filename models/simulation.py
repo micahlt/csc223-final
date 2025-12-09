@@ -28,9 +28,11 @@ class Simulation:
             self.prey.ages = self.prey.ages[:-prey_eaten]
         # Predator birth boost from feeding (apply feeding bonus) 
         for _ in range(prey_eaten):
-            if np.random.rand() < (self.predator.birth_rate * predator_feeding_bonus):
+            # Add stochasticity: feeding isn't always equally nutritious/effective
+            random_effectiveness = np.random.uniform(0.5, 1.5)
+            if np.random.rand() < (self.predator.birth_rate * predator_feeding_bonus * random_effectiveness):
                 self.predator.ages = np.concatenate((self.predator.ages, np.zeros(1, dtype=int)))
         # Apply internal birth/death dynamics
         self.prey.step() 
-        self.predator.step()
+        self.predator.step(reproduce=False)
         self.time.append(t) 
