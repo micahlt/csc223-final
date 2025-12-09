@@ -10,11 +10,20 @@ class Simulation:
         
     def step(self, t):
     # Predator-prey interactions
+        #Read optional numeric modifiers from the species variant 
+        prey_variant = self.prey.variant if isinstance(self.prey.variant, dict) else {}
+        predator_variant = self.predator.variant if isinstance(self.predator.variant, dict) else {}
+
+        prey_camouflage = float(prey_variant.get('camouflage', 1.0 )) #reduces encounter rate (0..1) 
+        predator_feeding_bonus = float(predator_variant.get('feeding_bonus', 1.0 )) #scales birth boost
+
+        effective_interaction_rate = self.interaction_rate * prey_camouflage
+        effective_predation_success = self.predation_success * predator_feeding_bonus
+
         interactions = min(len(self.prey.ages), len(self.predator.ages))
-        events = np.random.rand(interactions) < self.interaction_rate
-        prey_eaten = np.sum(events) * self.predation_success
-        prey_eaten = int(min(prey_eaten, len(self.prey.ages)))
-        # Remove eaten prey
+        events = np.random.rand(interactions) < effective_interaction_rate 
+        prey_eaten = int(min(np.sum(events) * effective_predation_success, len(self.prey.ages)))   
+        # Remove eaten prey 
         if prey_eaten > 0:
             self.prey.ages = self.prey.ages[:-prey_eaten]
         # Predator birth boost from feeding

@@ -1,13 +1,14 @@
 import numpy as np
 
 class Species:
-    def __init__(self, name, birth_rate, death_rate, latency_period, initial_population) -> None:
+    def __init__(self, name, birth_rate, death_rate, latency_period, initial_population, species_variant) -> None:
         self.name = name
         self.birth_rate = birth_rate
         self.death_rate = death_rate
         self.latency_period = latency_period
         self.population = [initial_population] # list to track over time
         self.ages = np.random.randint(0, latency_period + 1, size=initial_population)
+        self.variant = species_variant  
         
     def step(self, interactions=0) -> None:
         # Age all individuals
