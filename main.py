@@ -13,7 +13,7 @@ from pathlib import Path
 # took up 24GB of RAM on my PC when I adjusted them incorrectly
 
 n_simulations = 10
-timesteps = 70
+timesteps = 60
 all_data = []
 
 print(f"Running {n_simulations} simulations with randomized parameters...")
@@ -49,8 +49,8 @@ for i in range(n_simulations):
             print(f"Step {t} | Prey: {prey.population[-1]} | Predator: {predator.population[-1]}")
 
         # Collect data
-        all_data.append({'Simulation': i, 'Time': t, 'Population': prey.population[-1], 'Species': 'Prey'})
-        all_data.append({'Simulation': i, 'Time': t, 'Population': predator.population[-1], 'Species': 'Predator'})
+        all_data.append({'Simulation': i, 'Time': t, 'Population': prey.population[-1], 'Species': 'Prey', 'camouflage': camouflage})
+        all_data.append({'Simulation': i, 'Time': t, 'Population': predator.population[-1], 'Species': 'Predator', 'feeding_bonus': feeding_bonus})
     
 
 # Stochastic thingy
@@ -67,6 +67,15 @@ plt.title(f'Stochastic Predator Prey Simulation - Aggregated ({n_simulations} Ru
 plt.show()
 
 # Save results to CSV
+
+data = {
+    "time": df.Time,
+    "prey_population": df[df.Species == 'Prey'].Population,
+    "predator_population": df[df.Species == 'Predator'].Population,
+    "camouflage": camouflage,
+    "feeding_bonus": feeding_bonus,
+    }
+csv_df = pd.DataFrame(data)
 path = Path('data/simulation_results.csv')
 df.to_csv(path, index=False)
 print(f"Saving results to {path}")
