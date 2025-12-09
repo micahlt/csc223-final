@@ -1,13 +1,15 @@
 
-from species import Species
+from models.species import Species
 import numpy as np
 class Simulation:
- def __init__(self, prey, predator, interaction_rate, predation_success):
-    self.prey = prey
-    self.predator = predator
-    self.interaction_rate = interaction_rate
-    self.predation_success = predation_success
-    self.time = [0]
+    def __init__(self, prey, predator, interaction_rate, predation_success):
+        self.prey = prey
+        self.predator = predator
+        self.interaction_rate = interaction_rate
+        self.predation_success = predation_success
+        self.time = [0]
+
+        
     def step(self, t):
     # Predator-prey interactions
         interactions = min(len(self.prey.ages), len(self.predator.ages))
