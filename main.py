@@ -75,7 +75,7 @@ data = {
     "camouflage": camouflage,
     "feeding_bonus": feeding_bonus,
     }
-csv_df = pd.DataFrame(data)
+
 path = Path('data/simulation_results.csv')
 df.to_csv(path, index=False)
 print(f"Saving results to {path}")
